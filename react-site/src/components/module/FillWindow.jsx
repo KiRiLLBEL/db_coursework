@@ -9,11 +9,13 @@ function FillWindow(id) {
     var line = modals.getElementsByClassName("lower__line");
     var type = modals.getElementsByClassName("type__lesson");
     var lessons = blocks[id].getElementsByClassName("name__lesson");
+    let buttons = modals.getElementsByClassName("picture__delete")
     modals_titles.innerHTML = blocks[id].childNodes[0].innerHTML;
     var counter = 0;
     for (let j = 0; j < tables.length; ++j) {
         if (lessons[j].innerHTML !== "") {
             tables[j - counter].innerHTML = lessons[j].innerHTML;
+            buttons[j - counter].setAttribute("id_lesson_delete", j);
             type[j - counter].innerHTML = my_storage.timetable_type[id][j];
             type[j - counter].style.display = 'block';
             var time = my_storage.time[j];

@@ -8,13 +8,15 @@ class OneLesson extends React.Component {
         super(props);
         this.handleClickDelete = this.handleClickDelete.bind(this);
     }
-    handleClickDelete() {
+    handleClickDelete(event) {
         var modal = document.getElementById("myModal");
         modal.getElementsByClassName("button__insert")[0].style.display = "none";
-        // modal.getElementsByClassName("button__insert")[0].style.visibility = "hidden";
         modal.style.visibility = "hidden";
-        var modalDelete = document.getElementById("modal__delete");
+        var modalDelete = document.getElementsByClassName("modal__delete")[0];
         modalDelete.style.visibility = "visible";
+        console.log(event.target);
+        document.getElementsByClassName("delete__yes")[0].setAttribute('id_lesson_delete', event.target.getAttribute('id_lesson_delete'));
+
     }
     render() {
         return (

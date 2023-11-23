@@ -10,10 +10,12 @@ import ClickWindow from '../timetable/ClickWindow'
 class Module extends React.Component {
     constructor(props) {
         super(props);
+        // this.state = { value: '' };
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick(event) {
+        // this.state.value = this.props.id_block;
         ClickWindow(event, this.props);
     }
 
