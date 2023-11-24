@@ -3,7 +3,8 @@ import Module from '../module/Module'
 import OneLesson from '../module/OneLesson'
 import ButtonInsert from '../module/ButtonInsert'
 import ClickWindow from './ClickWindow'
-import ModalDelete from './ModalDelete.jsx'
+import ModalDelete from './ModalDelete'
+import ModalChange from './ModalChange'
 import './timetable.css'
 
 class TimetableStudent extends React.Component {
@@ -39,6 +40,7 @@ class TimetableStudent extends React.Component {
                     </div>
                 </div>
                 <ModalDelete />
+                <ModalChange />
             </>
         )
     }

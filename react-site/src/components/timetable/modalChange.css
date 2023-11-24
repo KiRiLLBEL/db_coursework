@@ -1,13 +1,4 @@
-.print {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 500;
-    margin-top: 140px;
-    margin-left: 130px;
-    width: 400px;
-}
-
-.modal__delete {
+.modal__change {
     visibility: hidden;
     position: fixed;
     z-index: 1;
@@ -19,32 +10,35 @@
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal__content__delete {
+.modal__content__change {
     border-radius: 15px;
     background-color: white;
     margin: 4% auto;
     border: 1px solid #888;
-    width: 680px;
+    width: 700px;
     padding-bottom: 20px;
-    min-height: 505px;
+    min-height: 550px;
     height: fit-content;
+    padding-top: 60px;
 }
 
-.delete__yes {
-    margin-top: 50px;
+.change__yes {
+    margin-top: 15px;
     height: 45px;
-    width: 80px;
+    width: 180px;
     border-radius: 15px;
     background-color: #2CDA00;
     color: white;
-    margin-left: 225px;
-    margin-right: 50px;
+    margin-left: 140px;
+    margin-right: 40px;
+    font-size: 18px;
 }
 
-.delete__no {
+.change__no {
     height: 45px;
-    width: 80px;
+    width: 180px;
     border-radius: 15px;
     background-color: #FF715E;
     color: white;
+    font-size: 18px;
 }

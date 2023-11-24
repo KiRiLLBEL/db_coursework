@@ -25,6 +25,12 @@ function ClickWindow(event, props) {
             var button_delete = document.getElementsByClassName("delete__yes")[0];
             button_delete.setAttribute('id_block', modal_delete.getAttribute('id_block'));
         }
+        if (props.id_block !== undefined && !event.target.classList.contains("change__yes")) {
+            modal_delete = document.getElementsByClassName("modal__change")[0];
+            modal_delete.setAttribute('id_block', props.id_block);
+            var button_change = document.getElementsByClassName("change__yes")[0];
+            button_change.setAttribute('id_block', modal_delete.getAttribute('id_block'));
+        }
         FillWindow(props.id_block);
         if (localStorage.getItem('role') === 'adm') {
             modal.getElementsByClassName("button__insert")[0].style.display = "block";

@@ -2,11 +2,45 @@ import React from 'react'
 import './oneLesson.css'
 import Change from "../../img/change.png"
 import Delete from "../../img/delete.png"
+import { my_storage } from '../../storage/storage.js'
 
+var flag = true;
 class OneLesson extends React.Component {
     constructor(props) {
         super(props);
         this.handleClickDelete = this.handleClickDelete.bind(this);
+        this.handleClickChange = this.handleClickChange.bind(this);
+    }
+    handleClickChange(event) {
+        var modal = document.getElementById("myModal");
+        modal.getElementsByClassName("button__insert")[0].style.display = "none";
+        modal.style.visibility = "hidden";
+        var modalChange = document.getElementsByClassName("modal__change")[0];
+        modalChange.style.visibility = "visible";
+        var array = document.getElementsByClassName("static__select");
+        var day_index = modalChange.getAttribute("id_block");
+        var lesson_index = event.target.getAttribute('id_lesson_change');
+        array[0].innerHTML = my_storage.timetable[day_index][lesson_index];
+        array[1].innerHTML = my_storage.timetable_type[day_index][lesson_index];
+        array[2].innerHTML = my_storage.timetable_group[day_index][lesson_index];
+        array[3].innerHTML = my_storage.timetable_teacher[day_index][lesson_index];
+        if (flag === true) {
+            let select = document.getElementById("time");
+            my_storage.time.forEach(function (v, k) {
+                var option = document.createElement("option");
+                option.value = k;
+                option.innerHTML = v;
+                select.appendChild(option);
+            });
+            let select_two = document.getElementById("class");
+            my_storage.class.forEach(function (v, k) {
+                var option = document.createElement("option");
+                option.value = k;
+                option.innerHTML = v;
+                select_two.appendChild(option);
+            });
+            flag = false;
+        }
     }
     handleClickDelete(event) {
         var modal = document.getElementById("myModal");
@@ -14,18 +48,16 @@ class OneLesson extends React.Component {
         modal.style.visibility = "hidden";
         var modalDelete = document.getElementsByClassName("modal__delete")[0];
         modalDelete.style.visibility = "visible";
-        console.log(event.target);
         document.getElementsByClassName("delete__yes")[0].setAttribute('id_lesson_delete', event.target.getAttribute('id_lesson_delete'));
-
     }
     render() {
         return (
-            <div className="one__lesson">
+            <div className="one__lesson" >
                 <div className="hight__line">
                     <div className="table"></div>
                     <div className="type__lesson"></div>
                     <div className="two__button">
-                        <button className="change__lesson" ><img className="picture__change" src={Change} alt="change" width="20px"></img></button>
+                        <button className="change__lesson" onClick={this.handleClickChange}><img className="picture__change" src={Change} alt="change" width="20px"></img></button>
                         <button className="delete__lesson" onClick={this.handleClickDelete}><img className="picture__delete" src={Delete} alt="delete" width="20px"></img></button>
                     </div>
                 </div>

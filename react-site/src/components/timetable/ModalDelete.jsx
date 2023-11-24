@@ -10,17 +10,24 @@ class ModalDelete extends React.Component {
         this.handleClickNo = this.handleClickNo.bind(this);
         this.handleClickYes = this.handleClickYes.bind(this);
     }
-    handleClickYes(event) {
+    handleClickYes() {
         var modalDelete = document.getElementsByClassName("modal__delete")[0];
         modalDelete.style.visibility = "hidden";
         ClearWindow();
         let id_block_real = document.getElementsByClassName("delete__yes")[0].getAttribute('id_block');
-        //элемент индекса, который мы удаляем из storage
-        alert("из storage надо удалить элемент с индексом:", document.getElementsByClassName("delete__yes")[0].getAttribute('id_lesson_delete'))
+        // индекс элемента, который мы удаляем из storage
+        let index = document.getElementsByClassName("delete__yes")[0].getAttribute('id_lesson_delete');
+        my_storage.timetable[id_block_real][index] = "";
+        const modules = document.getElementsByClassName("block");
+        for (let i = 0; i < modules.length; ++i) {
+            var names = modules[i].getElementsByClassName("name__lesson");
+            for (let j = 0; j < names.length; ++j) {
+                names[j].innerHTML = my_storage.timetable[i][j];
+            }
+        }
         FillWindow(id_block_real);
         var modal = document.getElementById("myModal");
         modal.style.visibility = "visible";
-
         if (localStorage.getItem('role') === 'adm') {
             modal.getElementsByClassName("button__insert")[0].style.display = "block";
             let buttons = modal.getElementsByClassName("two__button")
