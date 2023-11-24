@@ -34,7 +34,7 @@ class ModalDelete extends React.Component {
             let counter = 0;
             for (let i = 0; i < buttons.length; ++i) {
                 if (my_storage.timetable[id_block_real][i] !== "") {
-                    buttons[i - counter].style.visibility = "visible";
+                    buttons[i - counter].style.display = "block";
                 } else {
                     ++counter;
                 }

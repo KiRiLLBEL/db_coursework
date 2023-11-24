@@ -10,7 +10,8 @@ class Button extends React.Component {
 
     handleClick(event) {
         const role = this.props.role;
-        localStorage.setItem('role', role);
+        if (role === "adm" || role === "user")
+            localStorage.setItem('role', role);
         event.preventDefault();
         window.location.href = "/second";
     }

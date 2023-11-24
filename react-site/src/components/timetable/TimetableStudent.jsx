@@ -5,6 +5,7 @@ import ButtonInsert from '../module/ButtonInsert'
 import ClickWindow from './ClickWindow'
 import ModalDelete from './ModalDelete'
 import ModalChange from './ModalChange'
+import ModalInsert from './ModalInsert'
 import './timetable.css'
 
 class TimetableStudent extends React.Component {
@@ -41,6 +42,8 @@ class TimetableStudent extends React.Component {
                 </div>
                 <ModalDelete />
                 <ModalChange />
+                <ModalInsert />
+
             </>
         )
     }

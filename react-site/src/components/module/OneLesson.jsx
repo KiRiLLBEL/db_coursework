@@ -20,6 +20,7 @@ class OneLesson extends React.Component {
         var array = document.getElementsByClassName("static__select");
         var day_index = modalChange.getAttribute("id_block");
         var lesson_index = event.target.getAttribute('id_lesson_change');
+        modalChange.setAttribute('id_lesson_change', lesson_index)
         array[0].innerHTML = my_storage.timetable[day_index][lesson_index];
         array[1].innerHTML = my_storage.timetable_type[day_index][lesson_index];
         array[2].innerHTML = my_storage.timetable_group[day_index][lesson_index];

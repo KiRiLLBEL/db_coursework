@@ -7,11 +7,11 @@ function ClearWindow() {
     for (let j = 0; j < tables.length; ++j) {
         tables[j].innerHTML = "";
         type[j].innerHTML = "";
-        type[j].style.backgroundColor = '#FFFFFF';
+        type[j].style.display = 'none';
         line[j].innerHTML = "";
     }
     for (let i = 0; i < buttons.length; ++i) {
-        buttons[i].style.visibility = "hidden";
+        buttons[i].style.display = "none";
     }
     modals.getElementsByClassName("button__insert")[0].style.display = "none";
     // var modalDelete = document.getElementsByClassName("modal__delete")[0];

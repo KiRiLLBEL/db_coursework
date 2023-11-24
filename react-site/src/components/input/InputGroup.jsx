@@ -45,7 +45,7 @@ class InputGroup extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit} id="form">
-                <input autocomplete="off" id={this.props.my_id} className="input__form" placeholder={this.props.name} maxLength="30" value={this.state.value} onChange={this.handleChange} />
+                <input autoComplete="off" id={this.props.my_id} className="input__form" placeholder={this.props.name} maxLength="30" value={this.state.value} onChange={this.handleChange} />
                 <input type="submit" className="button__input" value="отобразить" />
             </form >
         )

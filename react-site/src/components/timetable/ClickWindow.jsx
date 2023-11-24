@@ -12,7 +12,7 @@ function ClickWindow(event, props) {
         if (localStorage.getItem('role') === 'adm') {
             let buttons = modal.getElementsByClassName("two__button")
             for (let i = 0; i < buttons.length; ++i) {
-                buttons[i].style.visibility = "hidden";
+                buttons[i].style.display = "none";
             }
         }
     } else {
@@ -38,7 +38,7 @@ function ClickWindow(event, props) {
             let counter = 0;
             for (let i = 0; i < buttons.length; ++i) {
                 if (my_storage.timetable[props.id_block][i] !== "") {
-                    buttons[i - counter].style.visibility = "visible";
+                    buttons[i - counter].style.display = "block";
                 } else {
                     ++counter;
                 }
