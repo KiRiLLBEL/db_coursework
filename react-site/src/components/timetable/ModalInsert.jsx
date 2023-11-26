@@ -12,8 +12,9 @@ class ModalInsert extends React.Component {
     }
 
     handleClickYes() {
-        var modalChange = document.getElementsByClassName("modal__insert")[0];
-        var selects = modalChange.getElementsByTagName("select");
+        var modalChange = document.getElementsByClassName("modal__change")[0];
+        var modalInsert = document.getElementsByClassName("modal__insert")[0];
+        var selects = modalInsert.getElementsByTagName("select");
         // localStorage.setItem('change_day', modalChange.getAttribute("id_block"));
         let date = new Date(localStorage['first_day']);  // Создаем объект Date из строки даты
         date.setDate(date.getDate() + Number(modalChange.getAttribute("id_block")));  // Сдвигаем дату
@@ -114,21 +115,21 @@ class ModalInsert extends React.Component {
 
                             modal = document.getElementById("myModal");
                             modal.style.visibility = "visible";
-                            const id_block_real = modal.getAttribute("id_block");
+                            const id_block_real = modalChange.getAttribute("id_block");
                             if (localStorage.getItem('role') === 'adm') {
                                 modal.getElementsByClassName("button__insert")[0].style.display = "block";
                                 let buttons = modal.getElementsByClassName("two__button")
                                 let counter = 0;
                                 for (let i = 0; i < buttons.length; ++i) {
                                     console.log(id_block_real);
-                                    if(localStorage[`id_${id_block_real}_${i}`] !== "null") {
+                                    if (localStorage[`id_${id_block_real}_${i}`] !== "null") {
                                         buttons[i - counter].style.display = "block";
                                     } else {
                                         ++counter;
                                     }
                                 }
                             }
-                            modalChange.style.visibility = "hidden";
+                            modalInsert.style.visibility = "hidden";
                         }
                     );
                 } else {
