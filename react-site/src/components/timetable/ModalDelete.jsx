@@ -61,8 +61,8 @@ class ModalDelete extends React.Component {
                             names[j].innerHTML = data[i][j];
                         }
                     }
-                });
-            fetch(url_id)
+                }).then(data => {
+                    fetch(url_id)
                 .then(response => response.json())
                 .then(data => {
                     for (let i = 0; i < modules.length; ++i) {
@@ -88,6 +88,7 @@ class ModalDelete extends React.Component {
                         }
                     }
                 }
+            });
             });
         });
     }

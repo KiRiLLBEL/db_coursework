@@ -41,11 +41,10 @@ class OneLesson extends React.Component {
                     fetch('http://127.0.0.1:8000/api/classes')
                         .then(response => response.json())
                         .then(data => {
-                            let classrooms = data.map(item => item[0]);
-                            classrooms.forEach(function (v, k) {
+                            data.forEach(function (item) {
                                 var option = document.createElement("option");
-                                option.value = k;
-                                option.innerHTML = v;
+                                option.value = item[1];
+                                option.innerHTML = item[0];
                                 select_two.appendChild(option);
                             });
                             flag = false;

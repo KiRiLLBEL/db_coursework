@@ -99,39 +99,40 @@ class ModalInsert extends React.Component {
                                     names[j].innerHTML = data[i][j];
                                 }
                             }
-                        });
-                    fetch(url_id)
-                        .then(response => response.json())
-                        .then(data => {
-                            for (let i = 0; i < modules.length; ++i) {
-                                var names = modules[i].getElementsByClassName("name__lesson");
-                                for (let j = 0; j < names.length; ++j) {
-                                    localStorage.setItem(`id_${i}_${j}`, data[i][j]);
-                                }
-                            }
                         }).then(data => {
-                        FillWindow(id_block_real);
-                    }).then(data => {
-
-                            modal = document.getElementById("myModal");
-                            modal.style.visibility = "visible";
-                            const id_block_real = modalChange.getAttribute("id_block");
-                            if (localStorage.getItem('role') === 'adm') {
-                                modal.getElementsByClassName("button__insert")[0].style.display = "block";
-                                let buttons = modal.getElementsByClassName("two__button")
-                                let counter = 0;
-                                for (let i = 0; i < buttons.length; ++i) {
-                                    console.log(id_block_real);
-                                    if (localStorage[`id_${id_block_real}_${i}`] !== "null") {
-                                        buttons[i - counter].style.display = "block";
-                                    } else {
-                                        ++counter;
+                        fetch(url_id)
+                            .then(response => response.json())
+                            .then(data => {
+                                for (let i = 0; i < modules.length; ++i) {
+                                    var names = modules[i].getElementsByClassName("name__lesson");
+                                    for (let j = 0; j < names.length; ++j) {
+                                        localStorage.setItem(`id_${i}_${j}`, data[i][j]);
                                     }
                                 }
+                            }).then(data => {
+                            FillWindow(id_block_real);
+                        }).then(data => {
+
+                                modal = document.getElementById("myModal");
+                                modal.style.visibility = "visible";
+                                const id_block_real = modalChange.getAttribute("id_block");
+                                if (localStorage.getItem('role') === 'adm') {
+                                    modal.getElementsByClassName("button__insert")[0].style.display = "block";
+                                    let buttons = modal.getElementsByClassName("two__button")
+                                    let counter = 0;
+                                    for (let i = 0; i < buttons.length; ++i) {
+                                        console.log(id_block_real);
+                                        if (localStorage[`id_${id_block_real}_${i}`] !== "null") {
+                                            buttons[i - counter].style.display = "block";
+                                        } else {
+                                            ++counter;
+                                        }
+                                    }
+                                }
+                                modalInsert.style.visibility = "hidden";
                             }
-                            modalInsert.style.visibility = "hidden";
-                        }
-                    );
+                        );
+                    });
                 } else {
                     alert("Данное время или аудитория уже заняты :(");
                 }
