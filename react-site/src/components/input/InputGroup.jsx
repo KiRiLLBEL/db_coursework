@@ -1,7 +1,5 @@
-import React from 'react'
-import "./input.css"
-import { my_storage } from '../../storage/storage.js'
-
+import React from 'react';
+import "./input.css";
 class InputGroup extends React.Component {
     constructor(props) {
         super(props);
@@ -18,26 +16,40 @@ class InputGroup extends React.Component {
     handleSubmit(event) {
         var type = this.props.type_input
         if (type === "group") {
-            if (my_storage.group.includes(this.state.value) === true) {
-                const user_input = this.state.value;
-                localStorage.setItem('user_input', user_input);
-                localStorage.setItem('type_input', 'группа');
-                window.location.href = "/timetable";
-            } else {
-                document.getElementById('for_group').value = '';
-                alert("Номер группы введен неверно");
-            }
+            fetch('http://127.0.0.1:8000/api/groups')
+                .then(response => response.json())
+                .then(data => {
+                    const group = data.find(item => item[0] === this.state.value); // Find the group with the matching name
+                    if (group) {
+                        const user_input = this.state.value;
+                        const group_id = group[1]; // Extract the id from the group
+                        localStorage.setItem('user_input', user_input);
+                        localStorage.setItem('object_id', group_id);
+                        localStorage.setItem('type_input', 'группа');
+                        window.location.href = "/timetable";
+                    } else {
+                                document.getElementById('for_group').value = '';
+                                alert("Номер группы введен неверно");
+                    }
+                })
         }
         if (type === "class") {
-            if (my_storage.class.includes(this.state.value) === true) {
-                const user_input = this.state.value;
-                localStorage.setItem('user_input', user_input);
-                localStorage.setItem('type_input', 'кабинет');
-                window.location.href = "/timetable";
-            } else {
-                document.getElementById('for_class').value = '';
-                alert("Номер аудитории введен неверно");
-            }
+            fetch('http://127.0.0.1:8000/api/classes')
+                .then(response => response.json())
+                .then(data => {
+                    const classroom = data.find(item => item[0] === this.state.value);
+                    if (classroom) {
+                        const user_input = this.state.value;
+                        const classroom_id = classroom[1];
+                        localStorage.setItem('user_input', user_input);
+                        localStorage.setItem('type_input', 'кабинет');
+                        localStorage.setItem('object_id', classroom_id);
+                        window.location.href = "/timetable";
+                    } else {
+                        document.getElementById('for_class').value = '';
+                        alert("Номер аудитории введен неверно");
+                    }
+                })
         }
         event.preventDefault();
     }

@@ -1,2 +1,6 @@
 react-site.zip
 react-site/node_modules/*
+node_modules
+.idea
+.env
+__pycache__

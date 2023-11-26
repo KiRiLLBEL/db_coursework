@@ -12,36 +12,46 @@ class OneLesson extends React.Component {
         this.handleClickChange = this.handleClickChange.bind(this);
     }
     handleClickChange(event) {
-        var modal = document.getElementById("myModal");
-        modal.getElementsByClassName("button__insert")[0].style.display = "none";
-        modal.style.visibility = "hidden";
-        var modalChange = document.getElementsByClassName("modal__change")[0];
-        modalChange.style.visibility = "visible";
-        var array = document.getElementsByClassName("static__select");
-        var day_index = modalChange.getAttribute("id_block");
-        var lesson_index = event.target.getAttribute('id_lesson_change');
-        modalChange.setAttribute('id_lesson_change', lesson_index)
-        array[0].innerHTML = my_storage.timetable[day_index][lesson_index];
-        array[1].innerHTML = my_storage.timetable_type[day_index][lesson_index];
-        array[2].innerHTML = my_storage.timetable_group[day_index][lesson_index];
-        array[3].innerHTML = my_storage.timetable_teacher[day_index][lesson_index];
-        if (flag === true) {
-            let select = document.getElementById("time");
-            my_storage.time.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select.appendChild(option);
+            var modal = document.getElementById("myModal");
+            modal.getElementsByClassName("button__insert")[0].style.display = "none";
+            modal.style.visibility = "hidden";
+            var modalChange = document.getElementsByClassName("modal__change")[0];
+            modalChange.style.visibility = "visible";
+            var array = document.getElementsByClassName("static__select");
+            var day_index = modalChange.getAttribute("id_block");
+            var lesson_index = event.target.getAttribute('id_lesson_change');
+            const lesson_id = localStorage[`id_${day_index}_${lesson_index}`];
+            fetch(`http://127.0.0.1:8000/lessons/${lesson_id}`)
+            .then(response => response.json())
+            .then(data => {
+                modalChange.setAttribute('id_lesson_change', lesson_index)
+                array[0].innerHTML = data['subject'];
+                array[1].innerHTML = data['lesson_type'];
+                array[2].innerHTML = data['group'];
+                array[3].innerHTML = data['teacher'];
+                if (flag === true) {
+                    let select = document.getElementById("time");
+                    my_storage.time.forEach(function (v, k) {
+                        var option = document.createElement("option");
+                        option.value = k;
+                        option.innerHTML = v;
+                        select.appendChild(option);
+                    });
+                    let select_two = document.getElementById("class");
+                    fetch('http://127.0.0.1:8000/api/classes')
+                        .then(response => response.json())
+                        .then(data => {
+                            let classrooms = data.map(item => item[0]);
+                            classrooms.forEach(function (v, k) {
+                                var option = document.createElement("option");
+                                option.value = k;
+                                option.innerHTML = v;
+                                select_two.appendChild(option);
+                            });
+                            flag = false;
+                        });
+                }
             });
-            let select_two = document.getElementById("class");
-            my_storage.class.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select_two.appendChild(option);
-            });
-            flag = false;
-        }
     }
     handleClickDelete(event) {
         var modal = document.getElementById("myModal");

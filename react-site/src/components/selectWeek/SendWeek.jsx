@@ -1,16 +1,19 @@
-import { my_storage } from '../../storage/storage.js'
 import { useEffect } from 'react'
 
 function SendWeek() {
     useEffect(() => {
-        var array = my_storage.week
-        var select = document.getElementsByTagName("select")[0];
-        array.forEach(function (v, k) {
-            var option = document.createElement("option");
-            option.value = k;
-            option.innerHTML = v;
-            select.appendChild(option);
-        });
+                 fetch('http://127.0.0.1:8000/api/weeks')
+        .then(response => response.json())
+        .then(data => {
+            var array = data
+            var select = document.getElementsByTagName("select")[0];
+            array.forEach(function (v, k) {
+                var option = document.createElement("option");
+                option.value = k;
+                option.innerHTML = v;
+                select.appendChild(option);
+            });
+        })
     }, [])
 }
 

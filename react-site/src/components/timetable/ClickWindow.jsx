@@ -1,5 +1,3 @@
-
-import { my_storage } from '../../storage/storage.js'
 import FillWindow from '../module/FillWindow'
 import ClearWindow from '../module/ClearWindow'
 
@@ -37,7 +35,7 @@ function ClickWindow(event, props) {
             let buttons = modal.getElementsByClassName("two__button")
             let counter = 0;
             for (let i = 0; i < buttons.length; ++i) {
-                if (my_storage.timetable[props.id_block][i] !== "") {
+                if (localStorage[`id_${props.id_block}_${i}`] !== 'null') {
                     buttons[i - counter].style.display = "block";
                 } else {
                     ++counter;
