@@ -30,6 +30,13 @@ def fetch_classroms(conn):
     cur.close()
     return rows
 
+def fetch_subjects(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT name, subject_id FROM subject")
+    rows = cur.fetchall()
+    cur.close()
+    return rows
+
 def fetch_week(conn):
     cur = conn.cursor()
 
@@ -171,3 +178,28 @@ def delete_lesson_by_id(conn, lesson_id):
     conn.commit()
     cur.close()
     return rows_deleted
+
+def create_lesson(conn, date_id, teacher_id, subject_id, class_id, number, type, group_id):
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO lesson (date_id, teacher_id, subject_id, class_id, number, type) VALUES (%s, %s, %s, %s, %s, %s) RETURNING lesson_id",
+        (date_id, teacher_id, subject_id, class_id, number, type)
+    )
+    lesson_id = cur.fetchone()[0]
+    cur.execute(
+        "INSERT INTO lesson_group (lesson_id, group_id) VALUES (%s, %s)",
+        (lesson_id, group_id)
+    )
+    conn.commit()
+    cur.close()
+
+def get_learn_day(conn, date):
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT learn_day_id FROM learn_day WHERE datetime = %s",
+        (date,)
+    )
+    learn_day_id = cur.fetchone()
+    conn.commit()
+    cur.close()
+    return learn_day_id

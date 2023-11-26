@@ -10,7 +10,7 @@ from starlette.middleware.cors import CORSMiddleware
 from backend.app.database import get_db_connection, fetch_groups, fetch_teachers, fetch_classroms, fetch_week, \
     fetch_teacher_timetable, fetch_group_timetable, fetch_classroom_timetable, fetch_id_by_teacher_timetable, \
     fetch_id_by_group_timetable, fetch_id_by_classroom_timetable, get_lesson, get_group, put_lesson_update, \
-    delete_lesson_by_id
+    delete_lesson_by_id, create_lesson, fetch_subjects, get_learn_day
 
 app = FastAPI()
 
@@ -45,6 +45,17 @@ def prepare_lesson_type(lesson_type):
         return "ПЗ"
     elif lesson_type == 'laboratory':
         return "ЛР"
+
+@app.get("/api/subjects", response_model=List[Tuple[str, int]])
+def get_groups():
+    conn = get_db_connection()
+    rows = fetch_subjects(conn)
+    conn.close()
+    groups = []
+    for row in rows:
+        name, id = row
+        groups.append([name, id])
+    return groups
 
 @app.get("/api/groups", response_model=List[Tuple[str, int]])
 def get_groups():
@@ -110,6 +121,7 @@ async def get_lessons(teacher_id: int, start_date: date, end_date: date):
     conn.close()
     lessons = [[None for _ in range(7)] for _ in range(6)]
     for row in rows:
+        print(row[0] - 1)
         lessons[row[2].weekday()][row[0] - 1] = row[1]
     return lessons
 
@@ -168,6 +180,7 @@ class Lesson(BaseModel):
 async def get_lesson_router(lesson_id: int):
     conn = get_db_connection()
     result = get_lesson(conn, lesson_id)
+    print(result)
     number, degree, year, institute = get_group(conn, result[0][4])[0]
     group = prepare_group(number, degree, year, institute)
     conn.close()
@@ -196,6 +209,32 @@ async def delete_lesson(lesson_id: int):
         raise HTTPException(status_code=404, detail="Lesson not found")
     else:
         return {"status": "success"}
+
+class CreateLesson(BaseModel):
+    date_id: int
+    teacher_id: int
+    subject_id: int
+    group_id: int
+    class_id: int
+    number: int
+    type: str
+
+@app.post("/create_lesson/")
+async def create_lesson_router(lesson: CreateLesson):
+    conn = get_db_connection()
+    create_lesson(conn, lesson.date_id, lesson.teacher_id, lesson.subject_id, lesson.class_id, lesson.number,lesson.type, lesson.group_id)
+    conn.close()
+    return {"status": "success"}
+
+@app.get("/get_learn_day_id/{date}")
+async def get_learn_day_id(date: str):
+    conn = get_db_connection()
+    learn_day_id = get_learn_day(conn, date)
+    conn.close()
+    if learn_day_id is None:
+        raise HTTPException(status_code=404, detail="Date not found")
+    else:
+        return {"learn_day_id": learn_day_id[0]}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", port=8000, reload=True)

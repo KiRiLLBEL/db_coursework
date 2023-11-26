@@ -16,50 +16,64 @@ class ButtonInsert extends React.Component {
         var modal_insert = document.getElementsByClassName("modal__insert")[0];
         modal_insert.style.visibility = "visible";
         if (flag === true) {
-            let select = document.getElementById("name");
-            my_storage.lessons.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select.appendChild(option);
-            });
-            select = document.getElementById("type");
+            fetch('http://127.0.0.1:8000/api/subjects')
+                .then(response => response.json())
+                .then(data => {
+                     const select = document.getElementById("name");
+                     data.forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item[1];  // id предмета
+                        option.innerHTML = item[0];  // название предмета
+                        select.appendChild(option);
+                    });
+                });
+            const select_type = document.getElementById("type");
             my_storage.type.forEach(function (v, k) {
                 var option = document.createElement("option");
                 option.value = k;
                 option.innerHTML = v;
-                select.appendChild(option);
+                select_type.appendChild(option);
             });
-            select = document.getElementById("group");
-            my_storage.group.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select.appendChild(option);
-            });
-            select = document.getElementById("teacher");
-            let kostyl = my_storage.teacher;
-            kostyl.shift();
-            kostyl.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select.appendChild(option);
-            });
-            select = document.getElementById("time_insert");
+            fetch('http://127.0.0.1:8000/api/groups')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("group");
+                    data.forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item[1];  // id предмета
+                        option.innerHTML = item[0];  // название предмета
+                        select.appendChild(option);
+                    });
+                });
+            fetch('http://127.0.0.1:8000/api/teachers')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("teacher");
+                    data.forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item[1];  // id предмета
+                        option.innerHTML = item[0];  // название предмета
+                        select.appendChild(option);
+                    });
+                });
+            const select_time = document.getElementById("time_insert");
             my_storage.time.forEach(function (v, k) {
                 var option = document.createElement("option");
                 option.value = k;
                 option.innerHTML = v;
-                select.appendChild(option);
+                select_time.appendChild(option);
             });
-            select = document.getElementById("class_insert");
-            my_storage.class.forEach(function (v, k) {
-                var option = document.createElement("option");
-                option.value = k;
-                option.innerHTML = v;
-                select.appendChild(option);
-            });
+            fetch('http://127.0.0.1:8000/api/classes')
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.getElementById("class_insert");
+                    data.forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item[1];  // id предмета
+                        option.innerHTML = item[0];  // название предмета
+                        select.appendChild(option);
+                    });
+                });
             flag = false;
         }
     }
