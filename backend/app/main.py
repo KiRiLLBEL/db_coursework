@@ -2,14 +2,15 @@ from datetime import date
 from typing import List, Tuple
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 
 from backend.app.database import get_db_connection, fetch_groups, fetch_teachers, fetch_classroms, fetch_week, \
     fetch_teacher_timetable, fetch_group_timetable, fetch_classroom_timetable, fetch_id_by_teacher_timetable, \
-    fetch_id_by_group_timetable, fetch_id_by_classroom_timetable, get_lesson, get_group, put_lesson_update
+    fetch_id_by_group_timetable, fetch_id_by_classroom_timetable, get_lesson, get_group, put_lesson_update, \
+    delete_lesson_by_id
 
 app = FastAPI()
 
@@ -185,6 +186,16 @@ async def update_lesson(lesson_id: int, updateLesson: UpdateLesson):
     put_lesson_update(conn, updateLesson.class_id, updateLesson.number, lesson_id)
     conn.close()
     return {"status": "success"}
+
+@app.delete("/delete_lesson/{lesson_id}")
+async def delete_lesson(lesson_id: int):
+    conn = get_db_connection()
+    rows_deleted = delete_lesson_by_id(conn, lesson_id)
+    conn.close()
+    if rows_deleted == 0:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    else:
+        return {"status": "success"}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", port=8000, reload=True)

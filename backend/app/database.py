@@ -162,3 +162,12 @@ def put_lesson_update(conn, class_id, number, lesson_id):
     )
     conn.commit()
     cur.close()
+
+def delete_lesson_by_id(conn, lesson_id):
+    cur = conn.cursor()
+    cur.execute("DELETE FROM lesson_group WHERE lesson_id = %s", (lesson_id,))
+    cur.execute("DELETE FROM lesson WHERE lesson_id = %s", (lesson_id,))
+    rows_deleted = cur.rowcount
+    conn.commit()
+    cur.close()
+    return rows_deleted
