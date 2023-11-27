@@ -21,7 +21,7 @@ class ModalInsert extends React.Component {
         let newDate = date.toISOString().split('T')[0];
         console.log(newDate);
         let type;
-        switch (selects[1].value) {
+        switch (+selects[1].value) {
             case 0:
                 type = 'lecture';
                 break;
